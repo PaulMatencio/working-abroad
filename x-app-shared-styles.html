@@ -1,0 +1,285 @@
+<!-- personalized  style -->
+<link rel="import" href="../polymer/polymer-element.html">
+<dom-module id="x-app-shared-styles">
+  <template>
+    <style>
+
+        /* SECTION CSS  styles  */
+        section {
+          padding: 32px 16px;
+        }
+
+        /* HEADER CSS styles */
+        header {
+          @apply --layout-vertical;
+          @apply --layout-center-center;
+          height: calc(50vh - 64px);
+          padding: 0 16px;
+          background-image: url('working-abroad.jpg');
+          backgrond-repeat: no-repeat;
+          background-size: cover;
+          color: white;
+          text-align: center;
+        }
+
+        header > h2 {
+          font-size: 56px;
+          font-weight: 300;
+          margin: 0;
+        }
+
+        header > p {
+          font-size: 32px;
+        }
+
+        .services {
+          @apply --layout-horizontal;
+        }
+        /*  CONTAINER  CSS styles */
+        .container {
+          @apply --layout-horizontal;
+          /* max-width: 800px; */
+          max-width: 90%;
+          margin: 0 auto;
+        }
+
+        .container > * {
+          @apply --layout-flex;
+        }
+
+        .container img {
+          max-width: 100%;
+          max-height: 100%;
+        }
+
+        .container h3 {
+          font-size: 32px;
+          font-weight: 300;
+          margin: 24px 0;
+        }
+
+        .container p {
+          line-height: 1.4;
+        }
+
+        /* TOGGLE ICONS CSS styles */
+
+        div .toggle-icon {
+          margin: 0;
+        }
+
+        .toggle-icon:hover .stop::after{
+           position: absolute;
+           top: -10px;
+           content: 'Stop';
+           color: white;
+           background-color: black;
+           padding: 3px 8px;
+           font-size: 14px;
+         }
+
+        .toggle-icon:hover .start::after {
+          position: absolute;
+          top: -10px;
+          content: 'Start';
+          color: white;
+          background-color: black;
+          padding: 3px 8px;
+          font-size: 14px;
+        }
+
+        /* BULLET CSS styles */
+        .bullets {
+          margin: 5px;
+          left: 0;
+          width: 100%;
+          z-index: 100;
+          height: 20px;
+          bottom: -35px;
+          text-align: center;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        .bullets button {
+          display: inline-block;
+          position: relative;
+          width: 24px;
+          height: 24px;
+          margin: 0;
+          cursor: pointer;
+          border: none;
+          outline: none;
+          background-color: transparent;
+        }
+
+        .bullets button:after,
+        .bullets button:before {
+         content: " ";
+         display: block;
+         position: absolute;
+         top: 15%;
+         left: 15%;
+         width: 70%;
+         height: 70%;
+         border-radius: 50%;
+         -webkit-transform: scale(0.5);
+         transform: scale(0.5);
+         -webkit-transition: -webkit-transform .225s cubic-bezier(.5, .75, .5, 1.65), opacity .15s ease-out;
+         transition: transform .225s cubic-bezier(.5, .75, .5, 1.65), opacity .15s ease-out;
+        }
+
+        .bullets button:after {
+          opacity: 0;
+          background-color: #6a6a6a;
+        }
+        .bullets button:before {
+          background-color: #3f3f3f;
+        }
+
+        .bullets button:hover:before {
+          -webkit-transform: scale(0.7);
+          transform: scale(0.7);
+        }
+        .bullets .active:after {
+          opacity: 1;
+          -webkit-transform: scale(1);
+          transform: scale(1);
+        }
+
+        .bullets .active:before {
+          opacity: 0;
+          -webkit-transform: scale(.5);
+          transform: scale(.5);
+        }
+
+        /*  Paper-fab styles */
+        paper-fab {
+          margin: 0 10px 0 10px;
+        }
+
+        paper-fab.label {
+          font-size: 20px;
+        }
+
+
+        /* PAPER dialog */
+
+        paper-dialog.size-position {
+          position: fixed;
+          top: 16px;
+          right: 16px;
+          width: 300px;
+          height: 300px;
+          overflow: auto;
+          border: 2px solid;
+          border-color: #4caf50;
+          background-color: #f1f8e9;
+          color: #4caf50;
+        }
+
+        /*paper-input input style */
+        input {
+          font: inherit;
+          outline: none;
+          box-shadow: none;
+          border: none;
+          width: auto;
+          text-align: left;
+        }
+
+        /* toolbar CSS */
+
+        .toolbar {
+          @apply --layout-horizontal;
+          @apply --layout-end-justified;
+          background-color: rgba(200, 200, 200, 0.95);
+        }
+
+        /* FOOTER CSS styles */
+
+        .footer-media-links {
+          background:#e8345a;padding:20px;
+          @apply --layout-horizontal
+          @apply --layout-center-justified
+        }
+
+        .footer-media-links a {
+          color:black;display:inline-block;padding:3px 20px;font-size:13px;font-weight:500;text-shadow:none;text-decoration:none;text-align:center;min-width:100px;white-space:nowrap;
+        }
+
+        .footer-media-links a span {
+          line-height:24px;margin-left:5px;
+        }
+
+        .footer-links {
+          background:#263238;padding:30px 10px;
+        }
+
+        .footer-links > * {
+          margin:10px;
+        }
+
+        .footer-links .title {
+          font-family:'Roboto Slab', 'Roboto', 'Noto', sans-serif;color:white;border-top:1px solid #707375;padding-top:10px;font-size:13px;
+        }
+
+        .footer-links a {
+          text-decoration:none;color:#979797;display:block;font-size:11px;line-height:20px;
+        }
+
+        @media (max-width: 767px) {
+
+
+          .footer-media-links a {
+            min-width:24px;padding-left:15px;padding-right:15px;
+          }
+
+          .footer-media-links a span {
+            display:none;
+          }
+
+          image-carousel::after {
+            padding-top: 75%;
+          }
+
+          .container {
+            @apply --layout-vertical;
+            max-width: 800px;
+          }
+
+          section {
+            padding: 32px 16px;
+          }
+        }
+
+        @media (max-width: 479px) {
+
+
+          .footer-links.layout.horizontal {
+              flex-direction:column;padding:20px 10px;
+            }
+
+          .footer-links > * {
+              flex:0 0 auto;
+            }
+
+          .copyright .additional-text {
+              display:none;
+            }
+        }
+
+        @media (max-width: 1028px) {
+
+          .container {
+            max-width: 100%;
+          }
+        }
+
+      </style>
+   </template>
+</dom-module>

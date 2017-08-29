@@ -1,0 +1,853 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/lib/elements/dom-bind.html">
+<link rel="import" href="../polymer/lib/elements/dom-if.html">
+<link rel="import" href="../polymer/lib/elements/dom-repeat.html">
+
+<link rel="import" href="../app-layout/app-header/app-header.html">
+<link rel="import" href="../app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../iron-media-query/iron-media-query.html">
+
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<!--link rel="import" href="../iron-icons/maps-icons.html"-->
+<!--link rel="import" href="../iron-icons/image-icons.html"-->
+<link rel="import" href="../material-flag-icons/flag-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+
+<!--link rel="import" href="../iron-demo-helpers/demo-pages-shared-styles.html"-->
+
+<link rel="import" href="../paper-slider/paper-slider.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu-light.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-styles/element-styles/paper-material-styles.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<!-- PAPER DIALOG -->
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../neon-animation/web-animations.html">
+<link rel="import" href="../neon-animation/neon-animations.html">
+
+<link rel="import" href="../neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../neon-animation/animations/fade-out-animation.html">
+
+<!--GOOGLE MAP "-->
+<link rel="import" href="../google-map/google-map.html">
+<link rel="import" href="../google-map/google-map-marker.html">
+<link rel="import" href="../google-map/google-map-search.html">
+<link rel="import" href="../app-layout/app-scroll-effects/app-scroll-effects.html">
+
+
+<link rel="import" href="../image-carousel/image-carousel-mixin.html">
+<link rel="import" href="../image-carousel/image-carousel.html">
+<link rel="import" href="../video-view/video-view.html">
+<link rel="import" href="../icon-toggle/icon-toggle.html">
+<link rel="import" href="x-app-custom-styles.html">
+<link rel="import" href="paper-icon-button-custom-styles.html">
+<link rel="import" href="x-app-shared-styles.html">
+<link rel="import" href="myicon-icons.html">
+
+<dom-module id="x-working-abroad">
+  <template>
+    <custom-style>
+      <style include="demo-pages-styles"></style>
+      <style include="x-app-custom-styles"></style>
+      <tyle include="paper-icon-button-custom-styles"></style>
+    </custom-style>
+
+    <style>
+    :host {
+         display: block;
+         line-height: 1.3;
+         --icon-toggle-color: green;
+         --icon-toggle-outline-color: black;
+         --icon-toggle-pressed-color: red;
+         --iron-icon-stoke-color: black;
+         --iron-icon-width: 30px;
+         --iron-icon-height: 30px;
+         --scroll-button-size: 24px;
+         --scroll-button-color: ;
+         --video-height: 100%;
+         --video-width: 100%;
+         --paper-listbox-background-color: #fff;
+
+         --iron-overlay-backdrop-opacity: 0.1;
+
+      }
+
+      /*
+      :host([hidden]) {
+        display: none !important;
+      }
+      */
+
+      a {
+        text-decoration: none;
+        font-size: inherit;
+        color: inherit;
+      }
+
+      div {
+        margin-top: 2vh;
+        margin-left: 2vh;
+        margin-right: 2vh;
+      }
+      .tabs {
+        height: 100%;
+        @apply --layout-horizontal;
+      }
+
+      .tabs > a {
+        @apply --layout-vertical;
+        @apply --layout-center-center;
+        margin: 12px 16px 12px;
+        border-bottom: 1px solid #222;
+      }
+
+      google-map {
+        height: 45vh;
+      }
+
+      img {
+        width: 100vh;
+      }
+
+      image-carousel {
+        width: 100%;
+        height: 100%;
+        contain: content;
+        margin:0;
+      }
+
+      image-carousel::after {
+        display: block;
+        content: '';
+        padding-top: 65%;
+      }
+
+      image-carousel img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+
+      /* mandatory if used with paper dialog  since papaer-dialog shared style
+         conflict with the app-header layout */
+      app-header-layout, header {
+        margin: 0;
+      }
+
+      @media (max-width: 767px) {
+        google-map {
+          height: 40vh;
+        }
+
+      }
+    </style>
+    <!-- it is included by  paper-dialog  -->
+    <!--style include="paper-dialog-shared-styles"></style-->
+    <style include="x-app-shared-styles"></style>
+
+    <iron-media-query query="max-width: 768px" query-matches="{{smallScreen}}"></iron-media-query>
+    <app-header-layout>
+      <app-header reveals effects="waterfall" slot="header">
+        <app-toolbar class="toolbar">
+          <div class="tabs">
+            <a href="#services">Services</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </app-toolbar>
+      </app-header>
+
+      <header>
+        <h2>Welcome To Work Abroad Services</h2>
+        <p>Made with Polymer 2.0</p>
+      </header>
+
+      <section id="services">
+        <div class="container">
+          <div>
+            <h3>Services for [[currentService]]</h3>
+            <div class="services">
+            <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
+            <paper-button on-click="_scrolling"><paper-fab  mini icon="expand-more"  title= "More on [[currentService]]"></paper-fab></paper-button>
+            </div>
+            <paper-dialog id="scrolling" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+              <h2>Services for {{currentService}}</h2>
+              <paper-dialog-scrollable>
+                <template is="dom-repeat" items="{{dialogText}}" >
+                  <p>{{item}}</p>
+                </template>
+              </paper-dialog-scrollable>
+              <div class="buttons">
+                    <paper-button dialog-confirm autofocus> <paper-fab mini icon="expand-less"> </paper-button>
+              </div>
+            </paper-dialog>
+
+            <div class="horizontal-section-container centered">
+              <paper-dropdown-menu-light id="_serviceList" label="Countries" noink no-animations dynamic-align="bottom" horizontal-align="left">
+                <paper-listbox  slot="dropdown-content" selected=0 class="dropdown-content">
+                  <template is="dom-repeat" id="serviceList" items="{{serviceList}}" >
+                    <paper-item>[[item.name]]</paper-item>
+                  </template>
+                </paper-listbox>
+              </paper-dropdown-menu-light>
+              <span></span>
+              <paper-dropdown-menu-light id="_serviceList2" label="Cities" noink no-animations dynamic-align="bottom" horizontal-align="left">
+                <paper-listbox  slot="dropdown-content" selected=0 class="dropdown-content">
+                  <template is="dom-repeat" id="serviceList2" items="{{serviceList2}}">
+                    <paper-item>[[item]]</paper-item>
+                  </template>
+                </paper-listbox>
+              </paper-dropdown-menu-light>
+
+            </div>
+          </div>
+          <div>
+            <image-carousel id="carousel"  autoscroll$="{{autoscroll}}" timer="{{timer}}" maxtimer="[[maxtimer]]" title="[[title" control-scrolling>
+            </image-carousel>
+          </div>
+
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div>
+            <dom-if if="[[smallScreen]]">
+              <template>
+                <h3>About [[currentService]] [[currentService2]] [[currentType]] </h3>
+              </template>
+            <dom-if>
+            <google-map-search id="mapsearch" map="[[map]]" query="[[query]]" results="{{results}}"    type="[[type]]">
+            </google-map-search>
+            <google-map id="map" map="{{map}}"
+                    api-key="[[myApiKey]]"  on-google-map-ready= '_mapLoaded'
+                  fit-to-markers  map-type="roadmap"  single-info-window  zoom="10" max-zoom="15"
+                  latitude= "[[mylat]]" longitude="[[mylg]]">
+                  <!--template is="dom-repeat" items="{{results}}">
+                    <google-map-marker latitude="{{item.latitude}}" longitude="{{item.longitude}}"
+                           draggable="false" title="{{item.name}}"
+                          animation="BOUNCE" slot="markers">
+                         <h2>{{item.name}}</h2>
+                         <span>{{item.formatted_address}}</span>
+                    </google-map-marker>
+                  </template-->
+             </google-map>
+          </div>
+          <div>
+            <dom-if if="[[!smallScreen]]">
+              <template>
+                <h3>About [[currentService]] [[currentService2]] [[myFilter]]-[[currentType]] </h3>
+              </template>
+            </dom-if>
+            <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
+            <div class="vertical-section-container centered">
+              <paper-dropdown-menu-light id="_typeList" label="Category" noink no-animations vertical-align="bottom" horizontal-align="left"
+                 allowOutsideScroll>
+                <paper-listbox  slot="dropdown-content" selected=0 class="dropdown-content">
+                  <template is="dom-repeat" id="ser" items="{{typeList}}" >
+                    <paper-item>[[item]]</paper-item>
+                  </template>
+                </paper-listbox>
+              </paper-dropdown-menu-light>
+              <paper-input-container>
+                <label slot="label">Filter</label>
+                <paper-icon-button slot="prefix" icon="image:filter"></paper-icon-button>
+                <iron-input slot="input"  bind-value="{{myFilter}}">
+                  <input type="text" placeholder="Category filter" size="20" value="{{myFilter::input}}">
+                </iron-input>
+                <paper-icon-button slot="suffix" icon="clear" on-tap="_clearFilter"></paper-icon-button>
+                <paper-icon-button slot="suffix" icon="search" on-tap="_searchFilter"></paper-icon-button>
+              </paper-input-container>
+            </div>
+          </div>
+        </div>
+       </section>
+
+       <section id="about">
+          <div class="container">
+            <div>
+              <h3>About us</h3>
+              <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
+              <p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>
+            </div>
+            <div>
+                <video-view url="{{videoUrl}}"></video-view>
+            </div>
+          </div>
+      </section>
+
+      <section id="contact">
+        <div class="footer-media-links">
+          <a href="#" title="Follow us on Google+" arial-label="Follow us on Google+">
+            <iron-icon icon="myicon:gplus"><iron-icon>
+            <span> Working Abroad</span>
+          </a>
+          <a href="#" title="Follow us on Twitter" arial-label="Follow us on Twitter">
+            <iron-icon icon="myicon:twitter"><iron-icon>
+            <span> @Working-abroad</span>
+          </a>
+          <a href="#" title="Follow us on FaceBook" arial-label="Follow us on FaceBook">
+            <iron-icon icon="myicon:facebook"><iron-icon>
+            <span> Working-abroad</span>
+          </a>
+          <a href="#" title="Email us" arial-label="Email us">
+            <iron-icon icon="myicon:gmail"><iron-icon>
+            <span> Working-abroad</span>
+          </a>
+        </div>
+      </section>
+
+    </app-header-layout>
+
+  </template>
+
+  <script>
+
+  let videoUrlList = ["https://www.youtube.com/watch?v=G1TS_5ck0nw","https://www.html5rocks.com/en/tutorials/video/basics/devstories.webm"];
+
+  let serviceList = [
+    {"id": 1, "name": "Canada","flag":"ca","images":["work-in-canada-1.jpg","work-in-canada-2.jpg","work-in-canada-3.jpg"],"host":"images","path":"jpeg"},
+    {"id": 2, "name": "USA", "flag":"usa","images":["work-in-usa-1.jpg","work-in-usa-2.jpg","work-in-usa-3.jpg"],"host":"images","path":"jpeg"},
+    {"id": 3, "name": "France","flag":"fr","images":["work-in-France-1.jpg","work-in-France-2.jpg","work-in-France-3.jpg"],"host":"images","path":"jpeg"},
+    {"id": 4, "name": "Spain","flag":"sp","images":["work-in-spain-1.jpg","work-in-spain-2.jpg","work-in-spain-3.jpg"],"host":"images","path":"jpeg"},
+    {"id": 5, "name": "Mauritus","flag":"sp","images":["work-in-maritus-1.jpg","work-in-mauritus-2.jpg","work-in-mauritus-3.jpg"],"host":"images","path":"jpeg"}
+    ];
+
+  let locationList = [
+    {"id":1,"city":"Montreal"},
+    {"id":1,"city":"Ottawa"},
+    {"id":2, "city":"NewYork"},
+    {"id":2, "city":"San Franscisco"},
+    {"id":3, "city":"Paris"},
+    {"id":3, "city":"Lyon"},
+    {"id":3, "city":"Bordeaux"},
+    {"id":4, "city":"Madrid"},
+    {"id":4, "city":"Barcelona"},
+    {"id":5, "city":"Mauritus"}
+  ]
+
+  let typeList = ["restaurant","museum","embassy","doctor","dentist","bank","airport","school"];
+
+
+  let dialogsText = [
+    {"name":"Canada", "text":[
+    "c1-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "c2-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "c3-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "c4-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    ]},
+    {"name":"USA", "text":[
+    "u1-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "u2-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "u3-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "u4-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    ]},
+    {"name":"France", "text":[
+    "f1-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "f2-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "f3-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "f4-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    ]},
+    {"name":"Spain", "text":[
+    "s1-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "s2-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "s3-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "s4-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    ]},
+    {"name":"Mauritus", "text":[
+    "m1-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "m2-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "m3-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "m4-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis auteirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    ]}
+  ]
+
+  class XWorkingAbroad extends ImageCarouselMixin(Polymer.Element) {
+    static get is() {
+      return 'x-working-abroad';
+    }
+
+    static get properties() {
+      return {
+
+        /* Google Map  */
+        myApiKey: {
+          type: String,
+          value: "AIzaSyAmVfPuY8QjIX4R7NCAi1EpS5iep-6cldM"
+        },
+
+        map: {
+          type: Object,
+          value: null
+        },
+
+        query: {
+          type: String,
+          value: "",
+          notify: true
+        },
+
+        type: {
+          type: String,
+          value: "",
+          notify: true
+        },
+
+        results: {
+          type: Array,
+          value: [],
+          notify: true,
+          observer: '_processResults'
+        },
+
+        mylat: {
+          type : Number,
+          computed: '_getlatitude(results)',
+          notify: true
+        },
+
+        mylg: {
+          type : Number,
+          computed: '_getlongitude(results)',
+          notify: true
+        },
+
+        mapType: {
+          type: String,
+          value: "roadmap",
+          notify: true
+        },
+
+        mymap: {
+          type: Object,
+          value: null
+        },
+
+        markers: {
+          type: Array,
+          value: []
+        },
+
+        myLocation:  {
+          type: Object,
+          value: {},
+          notify: true
+        },
+
+        myFilter: {
+            type: String,
+            value:"",
+            notify: true,
+            reflectToAttribute: true
+        },
+
+
+        /*   serviceList*/
+        dialogText: {
+          type: Array,
+          value: [],
+          notify: true
+        },
+
+        serviceList2:  {
+          type: Array,
+          value: [],
+          notify: true
+        },
+
+        serviceList: {
+          type: Array,
+          value: getServiceList()
+        },
+
+        typeList: {
+          type: Array,
+          value: getTypeList()
+        },
+
+        currentService: {
+          type: String,
+          notify: true,
+          observer: '_onServiceChanged'
+        },
+
+        currentService2: String,
+        currentType: String,
+
+        opened: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+
+        index: {
+          type: Number,
+          value: 0,
+          notify: true,
+          observer: '_onIndexChanged'
+        },
+
+
+        //  carousel attributes
+
+        images: {
+          type: Array,
+          value: [],
+          notify: true,
+          observer: '_onImagesChanged'
+        },
+
+        noBullets: {
+          type: Boolean,
+          value: false
+        },
+
+        _imgWC: {
+          type: Array,
+          value: [],
+          notify: true
+        },
+
+        nImages:{
+          type: Number,
+          value: 0,
+          notify: true
+        },
+
+        autoscroll: {
+          type: Boolean,
+          value: true,
+          notify: true,
+          reflectToAttribute: true
+        },
+
+        indexedDb:{
+          type: Boolean,
+          value: false,
+          notify: true,
+          reflectToAttribute: true
+        },
+
+        videoUrl: {
+          type: String,
+          value: "",
+          notify: true,
+         reflectToAttribute: true
+        }
+
+      };
+    }
+
+    /*
+    static get observers() {
+      return [
+        // Observer method name, followed by a list of dependencies, in parenthesis
+        '_updateMap(query,type,mylat,mylg)'
+      ]
+    }
+    */
+
+    constructor() {
+      super();
+    }
+
+    ready() {
+      super.ready();
+      let carousel = this.shadowRoot.querySelector('#carousel');
+      this.set('carousel',carousel);
+      this.set('videoUrl',videoUrlList[0]);
+      // this.scrolling = this.shadowRoot.querySelector('#scrolling');
+      this.set('scrolling',this.shadowRoot.querySelector('#scrolling'));
+
+      let serviceId = this.shadowRoot.querySelector("#_serviceList");
+      let serviceL2Id = this.shadowRoot.querySelector("#_serviceList2");
+      let typeId = this.shadowRoot.querySelector("#_typeList");
+      if (serviceId !==  undefined) {
+         serviceId.addEventListener('value-changed', e => this._serviceChanged(e));
+      }
+      if (serviceL2Id !==  undefined) {
+         serviceL2Id.addEventListener('value-changed', e => this._serviceL2Changed(e));
+      }
+      if (typeId !==  undefined) {
+         typeId.addEventListener('value-changed', e => this._typeChanged(e));
+      }
+    }
+
+    /* open the scrolling dialog box , a new content is set depending on the service*/
+    _scrolling() {
+      this.scrolling.open();
+    }
+    _onServiceChanged() {
+      // this.dialogText =  getDialogText(this.currentService);
+      this.set("dialogText",getDialogText(this.currentService));
+    }
+
+    // add images to the carousel element
+    // dom-repeat does not work when the images array changes
+
+    _addImages(images,carousel) {
+      let that = this;
+      images.forEach( function(image,index) {
+          var img  = document.createElement("img");
+          img.setAttribute('data-src', image.host + "/" + image.path + "/" + image.image );
+          /*
+          if (image.id) {
+            img.setAttribute('data-index', image.id);
+          }
+          */
+          img.setAttribute('data-index', index);
+          if (image.image) {
+            img.setAttribute('data-image',image.image);
+          }
+          carousel.appendChild(img);
+      },this);
+
+      this.set("nImages",images.length-1);
+    }
+
+    // remove all the children of the carousel element
+    // dom-repeat does not seem to work when the images array changes
+    _removeImages(carousel) {
+      while (carousel.firstChild) {
+        carousel.removeChild(carousel.firstChild);
+      }
+    }
+
+    _onIndexChanged(){
+      let current = this.index;
+      this._imgWC = this.images.map(function(img,idx) {
+        return {"image":img, "class": idx == current? 'active': ''};
+      });
+    }
+
+    _onImagesChanged(){
+      if (this.images.length == 0) {
+        // this.hidden = true;
+      } else {
+        if (this.index == 0) {
+          this._onIndexChanged();
+        }
+        this.index = 0;
+        // this.hidden= false;
+        // this.$.controls.hidden = this.images.length == 1;
+      }
+
+    }
+
+    // remove all the children of the google Map element
+    // dom-repeat does not seem to work when the images array changes
+    _removeMarkers(map) {
+      while (map.firstChild) {
+        map.removeChild(map.firstChild);
+      }
+    }
+
+    // add markers  to the google Map element
+    // dom-repeat does not work when Google Map results changes
+    _addMarkers(results,map) {
+      let that = this;
+      results.forEach( function(result) {
+          var marker  = document.createElement("google-map-marker");
+          marker.setAttribute('animation',"BOUNCE");
+          marker.setAttribute('slot',"markers");
+          marker.setAttribute('title',result.name);
+          marker.setAttribute('latitude',result.latitude);
+          marker.setAttribute('longitude',result.longitude);
+          let info = "<h3>" + result.name +"</h3><span>"+ result.formatted_address+ "</span>";
+          marker.innerHTML = info ;
+          map.appendChild(marker);
+      },this);
+    }
+
+    // save the map object
+    _mapLoaded() {
+      this.mymap = this.shadowRoot.querySelector("#map");
+      // this.mymap.search()
+    }
+
+    // add markers when search return results
+    _processResults(){
+      this._addMarkers(this.results,this.mymap);
+    }
+
+    //
+    _getlatitude(location) {
+      return location.length > 0 ? location[0].latitude: undefined;
+    }
+
+    _getlongitude(location) {
+       return location.length > 0 ? location[0].longitude: undefined;
+    }
+
+    _marker_click() {
+      console.log("click");
+    }
+
+    _marker_dblclick() {
+      console.log("dblclick");
+    }
+
+    _showUserDetail() {
+      console.log("cocou");
+    }
+
+    _videoUrlChanged() {
+      this.set('url',this.videoUrl);
+    }
+
+    /* dialog button  */
+    _open() {
+      this.opened = true;
+    }
+
+    _close() {
+      this.opened = false;
+    }
+
+    // is called when user select service ( country )
+    _serviceChanged(e) {
+      let service = e.detail.value;
+      if (service.length == 0  || service === this.currentService) return;
+      this.set("currentService",service);
+      // use for loop instead of filter for breaking at first match
+      for ( var i = 0; i < serviceList.length; i++ ) {
+        if ( service === serviceList[i].name) {
+          let images_a =  serviceList[i].images;
+          let host = serviceList[i].host;
+          let path = serviceList[i].path;
+          this.set("currentFlag",serviceList[i].flag);
+          // first rest the array images
+          this.set("images",[]);
+          let that = this;
+          // use Polymer Array mutation method push to add new row
+          images_a.forEach  (function(image,idx) {
+            that.push("images",{id: idx,image: image,host: host,path: path});
+          });
+
+          // return all locations that match the id of serviList[i]
+          let locations = locationList.filter(location => location.id === serviceList[i].id)
+
+          if (locations.length > 0) {
+            this.set("myLocation",locations[0].loc);
+            let that = this;
+            this.set("serviceList2",[]);
+            locations.forEach( function(location){
+                that.push("serviceList2",location.city);
+            });
+          }
+          /* the dom-repeat does not seem to work therefore we need to
+          *  force the selected value
+          *  select the first  serviceList2
+          */
+          var  serviceList2Id = this.shadowRoot.querySelector("#_serviceList2");
+          serviceList2Id.value = this.serviceList2[0];
+          this.set("currentService2",this.serviceList2[0]);
+          break;
+        }
+      }
+      /*  update the carousel with new images
+      *     delete  the current images of the carousel
+      *     add new images
+      */
+      if (this.carousel.children.length > 0)  this._removeImages(this.carousel);
+      this._addImages(this.images,this.carousel);
+  }
+
+  // is called when user select a sub service
+  _serviceL2Changed(e) {
+       let service2 = e.detail.value;
+       this.set("myFilter","");
+       if (service2.length ==  0  || service2 === this.currentService2) return;
+       this.set("currentService2",service2);
+       // clear all the markers and map chlidren
+       // prepare the query  which should fir Google Map search
+       if (this.currentType !== undefined) {
+         this._updateMap();
+         this._buildQuery(this.currentService,this.currentService2, this.currentType);
+       }
+  }
+
+  // is called when user select a MAP search  type
+  _typeChanged(e) {
+    let type  = e.detail.value;
+    if (type.length ==  0  || type === this.currentType) return;
+    this.set("myFilter","");
+    this.set("currentType",type);
+    // clear all the markers and map chlidren
+    this._updateMap();
+    // prepare the query  which should fir Google Map search
+    this._buildQuery(this.currentService,this.currentService2, this.currentType);
+
+  }
+
+  // Once the query is  ready , it should fire the Google Map search ( observer)
+  _buildQuery(service,service2,type) {
+    //this.query = service.concat(service2).concat(type);
+    this.query = service + " " + service2 + " " + type;
+  }
+
+  // is called to clear the markers on the Map
+  _updateMap() {
+    if (this.mymap) {
+      if (this.mymap.children.length > 0) {
+        this._removeMarkers(this.mymap);
+      }
+      this.mymap.clear();
+    }
+  }
+
+  _clearFilter() {
+    this.set("myFilter","");
+    // build a new query without filter
+    this._searchFilter();
+  }
+
+  _searchFilter() {
+    // this should fire map search
+    // this.query = this.query.concat(this.myFilter);
+    if (this._category) return;
+    this._updateMap();
+    this.query =  this.currentService + " " + this.currentService2 + " " + this.currentType + " " + this.myFilter ;
+
+  }
+
+  _fillMap(loc, id) {
+    let location = loc.filter(location => location.id === id)
+    if ( location.length > 0 ) {
+      /* keep the first match */
+      this.set("myLocation",location[0].loc);
+    }
+  }
+
+  toggleSelection(e) {
+        let item = this.$.serviceList.itemForElement(e.target);
+        this.$.selector.select(item);
+    }
+
+  } // end methods
+
+  //  functions that are called by the methos
+  function getServiceList() {
+    return serviceList;
+  }
+
+  function getTypeList() {
+    return typeList;
+  }
+
+  function getDialogText(service){
+   let dialogs =  dialogsText.filter(dialog=> dialog.name === service);
+   return dialogs.length > 0 ? dialogs[0].text : []
+  }
+
+  customElements.define(XWorkingAbroad.is, XWorkingAbroad);
+
+  </script>
+
+</dom-module>

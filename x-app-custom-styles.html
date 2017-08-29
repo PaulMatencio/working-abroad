@@ -1,0 +1,32 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<dom-module id="x-app-custom-styles">
+<template>
+  <custom-style>
+      <style>
+
+        paper-listbox {
+          border: 1px dotted #ccc;
+        }
+
+        paper-item {
+          cursor: pointer;
+        }
+
+        paper-fab.blue {
+          --paper-fab-background: var(--paper-light-blue-500);
+          --paper-fab-keyboard-focus-background: var(--paper-light-blue-900);
+        }
+
+        paper-slider {
+          --paper-slider-input: {
+            width: 150px;
+            background:white;
+            font-size: 10px !important;
+          };
+        }
+
+
+    </style>
+  </custom-style>
+</template>
+<dom-module>
