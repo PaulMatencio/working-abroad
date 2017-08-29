@@ -208,8 +208,36 @@
             </div>
           </div>
           <div>
-            <image-carousel id="carousel"  autoscroll$="{{autoscroll}}" timer="{{timer}}" maxtimer="[[maxtimer]]" title="[[title" control-scrolling>
+            <image-carousel id="carousel"  auto-scroll$="{{autoScroll}}" timer="{{timer}}" maxtimer="[[maxtimer]]" title="[[title" control-scrolling$="{{!controlScrolling}}">
             </image-carousel>
+
+            <dom-if if="{{controlScrolling}}">
+            <!-- if not control scrolling inside, it could be done ouside the image-carousel -->
+            <template>
+            <app-toolbar class="toolbar">
+              <div main-title>Scrolling control</div>
+              <dom-if if="[[autoScroll]]">
+                <template>
+                  <paper-slider value="{{timer}}" min="100"  max="[[maxtimer]]" step="[[_step]]" editable></paper-slider>
+                </template>
+              </dom-if>
+              <div class="toggle-icon">
+                <icon-toggle  toggle-icon="arrow-forward" pressed="{{autoScroll}}"></icon-toggle>
+                <dom-if if="[[autoScroll]]">
+                  <template>
+                    <span class="stop"> </span>
+                  </template>
+                </dom-if>
+                <dom-if if="[[!autoScroll]]">
+                  <template>
+                    <span class="start">  </span>
+                  </template>
+                </dom-if>
+              </div>
+            </app-toolbar>
+            </template>
+          </dom-if>
+
           </div>
 
         </div>
@@ -520,9 +548,16 @@
           notify: true
         },
 
-        autoscroll: {
+        autoScroll: {
           type: Boolean,
-          value: true,
+          value: false,
+          notify: true,
+          reflectToAttribute: true
+        },
+
+        controlScrolling: {
+          type: Boolean,
+          value: false,
           notify: true,
           reflectToAttribute: true
         },
